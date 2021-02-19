@@ -9,7 +9,7 @@ print(driver_path)
 print (driver_path)
 
 
-main_link='https://www.flipkart.com/'
+# main_link='https://www.flipkart.com/'
 link_list=[]
 
 
@@ -31,13 +31,12 @@ except:
 
 
           
-
 search_bar=driver.find_element_by_xpath('//*[@id="container"]/div/div[1]/div[1]/div[2]/div[2]/form/div/div/input')
 
 search_data=search_bar.send_keys('mobiles'+'\n')
 
-time.sleep(3)
-brand_fltr=driver.find_element_by_xpath('//*[@id="container"]/div/div[3]/div[2]/div[1]/div[1]/div/div[1]/div/section[5]/div[2]/div[1]/div[1]/input')
+time.sleep(4)
+brand_fltr=driver.find_element_by_xpath('//*[@id="container"]/div/div[3]/div[1]/div[1]/div/div[1]/div/section[5]/div[2]/div[1]/div[1]/input')
 
 
 
@@ -47,9 +46,9 @@ for i in brand_list:
     brand_fltr.send_keys(i)
     time.sleep(3)
     if counter==0:
-        (driver.find_element_by_xpath('//*[@id="container"]/div/div[3]/div[2]/div[1]/div[1]/div/div[1]/div/section[5]/div[2]/div[1]/div[2]/div/div/label/div[1]')).click()
+        (driver.find_element_by_xpath('//*[@id="container"]/div/div[3]/div[1]/div[1]/div/div[1]/div/section[5]/div[2]/div[1]/div[2]/div/div/label/div[2]')).click()
     else:
-        driver.find_element_by_xpath('//*[@id="container"]/div/div[3]/div[2]/div/div[1]/div/div[1]/div/section[5]/div[2]/div[1]/div[3]/div/div/label/div[1]').click()
+        driver.find_element_by_xpath('//*[@id="container"]/div/div[3]/div/div[1]/div/div[1]/div/section[5]/div[2]/div[1]/div[3]/div/div/label/div[2]').click()
         time.sleep(3)
     brand_fltr.clear()
     counter+=1
@@ -100,7 +99,9 @@ def lis_of_product_url_in_page(url):
             except:
                 rating_div="NA"
             try:
-                price_div=((soup2.find('div',class_="_30jeq3 _16Jk6d"))).text
+                price_div=((soup2.find('div',class_="_30jeq3 _16Jk6d"))).get_text(strip=True)
+                price_div=price_div.replace('\u20b9','Rs.')
+
             except:
                 price_div="NA"
 
@@ -140,7 +141,7 @@ for bn in range(1,user+1):
     b.append(ln)
 # print (b)
 with open('flipkart.json','w') as data:
-    json.dump(b,data)
+    json.dump(b,data,indent=4)
 
 print ("you scraped succesfully")
 
